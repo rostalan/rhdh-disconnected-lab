@@ -112,10 +112,10 @@ cd "$HOME/redhat/rhdh-disconnected-lab"
 ### Tracked configuration
 
 Phase 1 reads the three version-controlled YAML files in
-`local_images/config`. They set the release pins and lab options:
+`disconnected-lab-assets/config`. They set the release pins and lab options:
 
 ```text
-local_images/
+disconnected-lab-assets/
 ├── config/
 │   ├── imageset-rhdh-2.1-osl-1.39.0.yaml
 │   ├── values-rhdh-2.1-osl-1.39.0.yaml
@@ -130,7 +130,7 @@ Set these variables once per shell:
 
 ```bash
 export REPO_ROOT="$PWD"
-export WORK="$REPO_ROOT/local_images"
+export WORK="$REPO_ROOT/disconnected-lab-assets"
 export CONFIG="$WORK/config"
 export SCRIPT_DIR="$WORK/scripts"
 export OCMIRROR="$(command -v oc-mirror)"
@@ -263,7 +263,7 @@ podman pull docker.io/library/registry:2
 
 ### 7. Transfer artifacts, if the target is a separate host
 
-Copy the entire `local_images` directory, including the archive, charts,
+Copy the entire `disconnected-lab-assets` directory, including the archive, charts,
 plugin export, and generated `working-dir`. Do not transfer only the tarball:
 the generated cluster-resource YAML and plugin export are also required.
 

@@ -1,4 +1,4 @@
 # Build output created by the runbook. The source configuration stays tracked.
-/local_images/*
-!/local_images/config/
-!/local_images/config/**
+/disconnected-lab-assets/*
+!/disconnected-lab-assets/config/
+!/disconnected-lab-assets/config/**
