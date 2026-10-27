@@ -1,0 +1,29 @@
+# Orchestrator infra chart: redhat-developer-hub-orchestrator-infra-0.7.3.tgz
+# Both GA operators are delivered by the mirrored released Red Hat catalog.
+
+olmVersion: v0
+
+serverlessOperator:
+  enabled: true
+  subscription:
+    spec:
+      channel: stable
+      installPlanApproval: Manual
+      name: serverless-operator
+      # Replace only if oc-mirror generated a different CatalogSource name.
+      source: redhat-operators
+      sourceNamespace: openshift-marketplace
+
+serverlessLogicOperator:
+  enabled: true
+  subscription:
+    spec:
+      channel: stable
+      installPlanApproval: Manual
+      name: logic-operator
+      source: redhat-operators
+      sourceNamespace: openshift-marketplace
+      startingCSV: logic-operator.v1.39.0
+
+tests:
+  enabled: false

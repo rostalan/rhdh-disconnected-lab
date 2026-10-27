@@ -1,0 +1,64 @@
+# RHDH 2.1 Helm chart: redhat-developer-hub-3.4.13.tgz
+# The source image names remain external deliberately: apply the oc-mirror
+# generated IDMS/ITMS before Helm installs this chart.
+appConfig:
+  signInPage: guest
+  auth:
+    environment: development
+    providers:
+      guest:
+        dangerouslyAllowOutsideDevelopment: true
+openshift:
+  # Replace with: oc get ingresses.config.openshift.io cluster -o jsonpath='{.spec.domain}'
+  clusterRouterBase: apps.example.com
+
+image:
+  registry: quay.io
+  repository: rhdh/rhdh-hub-rhel10
+  tag: ""
+  digest: sha256:1df6cf53ca1b04384bf0549d3bc79fd74b64843c0951cfba74b5039f8583f265
+
+catalogIndex:
+  image:
+    registry: quay.io
+    repository: rhdh/plugin-catalog-index
+    tag: ""
+    digest: sha256:95756855e99641a69be1066ba91beb997d577b2f0a0d27583b9a5c96f769f1da
+
+# Avoid the unmirrored Lightspeed container and Helm test pod.
+intelligentAssistant:
+  enabled: false
+test:
+  enabled: false
+
+# The bundled PostgreSQL is used by both RHDH and SonataFlow. Mirror this exact
+# digest, or replace this block with an external-DB configuration.
+postgresql:
+  enabled: true
+  image:
+    registry: quay.io
+    repository: fedora/postgresql-18
+    tag: ""
+    digest: sha256:7dc4c801f581404fdfe92c8205ea36b9e5c9487679fee2be8ab8f4e832fdf0f1
+
+orchestrator:
+  enabled: true
+  # This does not install the Logic Operator. It enables the SonataFlowPlatform
+  # and workflow resources that require the separately installed GA operator.
+  serverlessLogicOperator:
+    enabled: true
+  serverlessOperator:
+    enabled: true
+
+# `skopeo` in install-dynamic-plugins does not use IDMS/ITMS.
+extraVolumes:
+  - name: rhdh-plugin-mirror-conf
+    configMap:
+      name: rhdh-plugin-mirror-conf
+dynamicPlugins:
+  initContainer:
+    extraVolumeMounts:
+      - name: rhdh-plugin-mirror-conf
+        mountPath: /etc/containers/registries.conf.d/rhdh-registries.conf
+        subPath: rhdh-registries.conf
+        readOnly: true

@@ -1,0 +1,19 @@
+apiVersion: mirror.openshift.io/v2alpha1
+kind: ImageSetConfiguration
+mirror:
+  # Both packages are sourced from Red Hat's released OCP 4.22 catalog.
+  # The stable logic channel head is logic-operator.v1.39.0.
+  operators:
+    - catalog: registry.redhat.io/redhat/redhat-operator-index:v4.22
+      packages:
+        - name: serverless-operator
+          channels:
+            - name: stable
+        - name: logic-operator
+          channels:
+            - name: stable
+
+  # RHDH dynamic plugins are exported/imported separately by mirror-plugins.sh.
+  additionalImages:
+    - name: quay.io/rhdh/rhdh-hub-rhel10@sha256:1df6cf53ca1b04384bf0549d3bc79fd74b64843c0951cfba74b5039f8583f265
+    - name: quay.io/fedora/postgresql-18@sha256:7dc4c801f581404fdfe92c8205ea36b9e5c9487679fee2be8ab8f4e832fdf0f1
