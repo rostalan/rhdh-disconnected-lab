@@ -126,7 +126,8 @@ Steps 1–6 create all other artifacts while the workstation is connected.
 The chart archives, image mirror, plugin helper and export, and registry image
 are build outputs. Do not add them to the repository.
 
-Set these variables once per shell:
+From the repository root (`$HOME/redhat/rhdh-disconnected-lab`), set these
+variables once per shell:
 
 ```bash
 export REPO_ROOT="$PWD"
